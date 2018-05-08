@@ -3,7 +3,7 @@
 An example Grails app that uses the inner Infinispan module of a Wildfly 10 server cluster.
 
 ## Custom-Cache Plugin
-For the example to work, you must download the [custom-cache](http://https://github.com/gorgtopalski/grails-cache-custom) plugin for grails, publish it to your local maven repository and declare it as a dependency in your grails application.
+For the example to work, you must download the [custom-cache](https://github.com/gorgtopalski/grails-cache-custom) plugin for grails, publish it to your local maven repository and declare it as a dependency in your grails application.
 
 - [ ] Download the plugin
 ```
