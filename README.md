@@ -95,7 +95,9 @@ On a local standalone Wildfly 10 cluster:
 
 The Cache endpoint also provides the functionality to add, update or delete entries.
 > POST /cache-example/cache
+
 > PUT /cache-example/cache/$id
+
 > DELETE /cache-example/cache/$id
 
 ## Using the Wildfly 10 inner Infinispan cache
@@ -123,7 +125,7 @@ grails:
         custom:
             impl: 'wildfly'
             wildfly:
-				jdni: "java:jboss/infinispan/container/test"
+                jdni: "java:jboss/infinispan/container/test"
 ```
 Note: the JDNI parmater must be a valid JDNI URI pointing to the Cache Container created in the Wildfly 10 cluster.
 
