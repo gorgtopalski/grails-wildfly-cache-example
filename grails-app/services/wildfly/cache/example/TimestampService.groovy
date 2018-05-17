@@ -4,11 +4,9 @@ import grails.plugin.cache.Cacheable
 
 class TimestampService {
 
-    @Cacheable('date')
-    def cacheDate()
+    @Cacheable('time')
+    Time cacheDate(String name)
     {
-        def date = new Date()
-        return date
+        Time.findByName(name)
     }
-
 }
