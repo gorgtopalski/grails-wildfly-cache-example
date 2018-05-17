@@ -8,10 +8,9 @@ buildscript {
         classpath "org.grails.plugins:hibernate5:${gormVersion-".RELEASE"}"
         classpath "org.grails.plugins:views-gradle:1.1.6"
     }
-
 }
 
-version "0.1"
+version "0.2"
 group "wildfly.cache.example"
 
 apply plugin:"eclipse"
@@ -19,7 +18,6 @@ apply plugin:"idea"
 apply plugin:"war"
 apply plugin:"org.grails.grails-web"
 apply plugin:"org.grails.plugins.views-json"
-
 
 repositories {
     mavenLocal()
@@ -29,7 +27,10 @@ repositories {
 dependencies {
     provided "org.springframework.boot:spring-boot-starter-tomcat"
 
-    compile 'cat.dipta.plugins:cache-custom:0.1'
+    compile 'cat.dipta.plugins:cache-custom:0.2.1'
+
+    compileOnly 'org.infinispan:infinispan-core:8.2.4.Final'
+    compileOnly 'org.infinispan:infinispan-commons:8.2.4.Final'
 
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
@@ -77,11 +78,3 @@ tasks.withType(Test) {
     systemProperty "webdriver.chrome.driver", System.getProperty('webdriver.chrome.driver')
     systemProperty "webdriver.gecko.driver", System.getProperty('webdriver.gecko.driver')
 }
-
-//war {
-//    manifest {
-//        attributes (
-//                'Dependencies': 'org.infinispan export'
-//        )
-//    }
-//}
