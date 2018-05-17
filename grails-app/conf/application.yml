@@ -104,4 +104,5 @@ grails:
         custom:
             impl: 'wildfly'
             wildfly:
-                jdni: "java:jboss/infinispan/container/test"
+                jdni: "java:jboss/infinispan/replicated_cache"
+                default: "java:jboss/infinispan/replicated_cache/cache"
