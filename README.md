@@ -44,7 +44,52 @@ Go to your Wildfly 10 Administration Console -> Deployments --> Add --> Select t
 
 
 ## Grails application
-The provided application is a simple Grails App generated with the grails rest-api profile. It provides two REST endpoints where the plugin can be shown in action.
+The provided application is a simple Grails App generated with the grails rest-api profile. It provides some REST endpoints where the plugin can be shown in action.
+
+#### Direct
+
+The direct endpoint interacts directly with the cache system. It injects the GrailsCacheManager at runtime. It tries to get the corresponding value for a given key. If there isn't a value present in the cache, it will store a value inside for future usage.
+
+> GET /cache-example/direct
+
+The fisrt time response will be marked as "miss"
+
+```
+{
+	"cached": "miss",
+	"key": "key",
+	"value": "2018-05-17T19:43:50Z"
+}
+```
+
+After that, once a value is stored in the cache. The response will be marked as "hit"
+```
+{
+	"cached": "hit",
+	"key": "key",
+	"value": "2018-05-17T19:43:50Z"
+}
+```
+
+#### Explorer
+The explorer waypoint makes a cache-dump. It queries each cache, for each containg key and dumps the values. 
+
+> GET /cache-example/explorer
+
+```
+{
+	"cache": {},
+	"grailsBlocksCache": {},
+	"grailsTemplatesCache": {},
+	"direct": {
+		"key": "Thu May 17 19:43:50 UTC 2018"
+	},
+	"time": {
+		"grails.plugin.cache.custom.CustomKeyGenerator$TemporaryGrailsCacheKey@5bd81f8f": "wildfly.cache.example.Time : 1"
+	}
+}
+```
+
 
 #### Timestamp
 The timestamp endpoint will cache a timestamp when accessed for the first time. After that, on each following access, a new timestamp will be generated and will be compared against the one in the cache. "Diff" is the difference in ms between the two timestamps.
@@ -60,45 +105,7 @@ The timestamp endpoint will cache a timestamp when accessed for the first time. 
 }
 ```
 
-#### Cache
 
-The Cache endpoint is a simple key-value store. When deployed, the application will generate 100 keys with random values.
-
-> GET /cache-example/cache
-
-```
-{
-	"stored": 100
-}
-```
-
-Each value will be cached after the first access.
-
-> GET /cache-example/cache/71
-
-```
-{
-	"id": 71,
-	"value": "MjEuMDUzOTUyMzgxMzExNjY=",
-	"key": {
-		"id": 71
-	}
-}
-```
-On a local standalone Wildfly 10 cluster:
-- When accessing a value for the first time:
-	- curl -o /dev/null -s -w %{time_total}\\n  localhost:8080/cache-example/cache/71
-	- time: 154ms
-- When accessed the same value after the first time:
-	- curl -o /dev/null -s -w %{time_total}\\n  localhost:8080/cache-example/cache/71
-	- time: 7.45ms
-
-The Cache endpoint also provides the functionality to add, update or delete entries.
-> POST /cache-example/cache
-
-> PUT /cache-example/cache/$id
-
-> DELETE /cache-example/cache/$id
 
 ## Using the Wildfly 10 inner Infinispan cache
 
@@ -119,6 +126,8 @@ dependencies {
 }
 ```
 - [ ] Enable the plugin in the application.yml file
+* The "jdni" parameter must be a valid JDNI URI pointing to the Cache Container created in the Wildfly 10 cluster.
+* The "default" parameter must be a valid JDNI URI pointing to the default cache. This cache will be used as a template for future caches created within the plugin.
 ```
 grails:
     cache:
@@ -126,8 +135,9 @@ grails:
             impl: 'wildfly'
             wildfly:
                 jdni: "java:jboss/infinispan/container/test"
+                default: "java:jboss/infinispan/container/test/cache"
 ```
-Note: The JDNI parmater must be a valid JDNI URI pointing to the Cache Container created in the Wildfly 10 cluster.
+
 
 
 
