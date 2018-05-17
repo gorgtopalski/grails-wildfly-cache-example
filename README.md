@@ -3,7 +3,7 @@
 An example Grails app that uses the inner Infinispan module of a Wildfly 10 server cluster.
 
 ## Custom-Cache Plugin
-For the example to work, you must download the [custom-cache](http://https://github.com/gorgtopalski/grails-cache-custom) plugin for grails, publish it to your local maven repository and declare it as a dependency in your grails application.
+For the example to work, you must download the [custom-cache](https://github.com/gorgtopalski/grails-cache-custom) plugin for grails, publish it to your local maven repository and declare it as a dependency in your grails application.
 
 - [ ] Download the plugin
 ```
@@ -47,7 +47,7 @@ Go to your Wildfly 10 Administration Console -> Deployments --> Add --> Select t
 The provided application is a simple Grails App generated with the grails rest-api profile. It provides two REST endpoints where the plugin can be shown in action.
 
 #### Timestamp
-The timestamp endpoint, will cache a timestamp when accessed for the first time. After that, on each following access, a new timestamp will be generated and will be compared against the one in the cache. The diff is the difference in ms between the two timestamps.
+The timestamp endpoint will cache a timestamp when accessed for the first time. After that, on each following access, a new timestamp will be generated and will be compared against the one in the cache. "Diff" is the difference in ms between the two timestamps.
 
 
 > GET /cache-example/timestamp
@@ -72,7 +72,7 @@ The Cache endpoint is a simple key-value store. When deployed, the application w
 }
 ```
 
-Each the corresponding value for each key will be cached after the first access.
+Each value will be cached after the first access.
 
 > GET /cache-example/cache/71
 
@@ -95,7 +95,9 @@ On a local standalone Wildfly 10 cluster:
 
 The Cache endpoint also provides the functionality to add, update or delete entries.
 > POST /cache-example/cache
+
 > PUT /cache-example/cache/$id
+
 > DELETE /cache-example/cache/$id
 
 ## Using the Wildfly 10 inner Infinispan cache
@@ -123,9 +125,9 @@ grails:
         custom:
             impl: 'wildfly'
             wildfly:
-				jdni: "java:jboss/infinispan/container/test"
+                jdni: "java:jboss/infinispan/container/test"
 ```
-Note: the JDNI parmater must be a valid JDNI URI pointing to the Cache Container created in the Wildfly 10 cluster.
+Note: The JDNI parmater must be a valid JDNI URI pointing to the Cache Container created in the Wildfly 10 cluster.
 
 
 
